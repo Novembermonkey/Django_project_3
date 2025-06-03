@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.db.models import Avg
 from django.db.models.functions import Round
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -18,6 +19,12 @@ class BaseModel(models.Model):
 class Category(BaseModel):
     title = models.CharField(max_length=50)
     image = models.ImageField(upload_to='categories/')
+    slug = models.SlugField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.slug is None:
+            self.slug = slugify(self.title)
+        super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -40,7 +47,8 @@ class Product(BaseModel):
 
     @property
     def discounted_price(self):
-        return self.price * Decimal(f'{1-(self.discount/100)}')
+        price = self.price * Decimal(f'{1-(self.discount/100)}')
+        return price.quantize(Decimal('1.00'))
 
     @property
     def primary_image_url(self):
@@ -52,7 +60,7 @@ class Product(BaseModel):
     @property
     def avg_rating(self):
         avg = self.comments.aggregate(avg=Round(Avg('rating'), precision=2))['avg']
-        return round(avg, 0)
+        return avg
 
 class ProductImage(BaseModel):
     image = models.ImageField(upload_to='products/')

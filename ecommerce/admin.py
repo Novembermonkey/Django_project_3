@@ -4,7 +4,16 @@ from .models import Category, Product, ProductImage
 
 # Register your models here.
 
-admin.site.register(Category)
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['title', 'slug']
+    search_fields = ['title']
+
+    prepopulated_fields = {'slug': ('title',)}
+
+
+
 
 
 @admin.register(ProductImage)
@@ -37,6 +46,8 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ImageTabularInline]
     list_display = ['id', 'name', 'price', 'amount', 'category', 'image_preview']
     readonly_fields = ['image_preview']
+    search_fields = ['name']
+    filter_fields = ['name', 'price', 'category']
     def image_preview(self, obj):
         first_image = obj.images.first()
         if first_image and first_image.image:
