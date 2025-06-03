@@ -24,3 +24,8 @@ class Index(View):
 
 def product_list(request):
     return render(request, 'ecommerce/product-list.html', {'products': Product.objects.all()})
+
+class ProductDetail(DetailView):
+    model = Product
+    template_name = 'ecommerce/product-details.html'
+    pk_url_kwarg = 'pk'

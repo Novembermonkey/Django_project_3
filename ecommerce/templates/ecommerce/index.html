@@ -36,11 +36,11 @@
                 <div class="col-6 mb-3 col-md-6 col-lg-4">
                   <div class="border rounded-1 d-flex flex-column justify-content-between pb-3">
                     <div class="overflow-hidden">
-                      <div class="position-relative rounded-top overflow-hidden"><a class="d-block" href="#"><img class="img-fluid rounded-top" src="{{ product.primary_image_url }}" alt=""></a>
+                      <div class="position-relative rounded-top overflow-hidden"><a class="d-block" href="{% url 'ecommerce:product_detail' product.id %}"><img class="img-fluid rounded-top" src="{{ product.primary_image_url }}" alt=""></a>
                       </div>
                         <div class="p-2">
-                          <h5 class="fs-0"><a class="text-dark" href="./app/e-commerce/product/product-details.html">{{ product.name }}</a></h5>
-                          <p class="fs--1 mb-2"><a class="text-500" href="#!">{{ product.category }}</a></p>
+                          <h5 class="fs-0"><a class="text-dark" href="{% url 'ecommerce:product_detail' product.id %}">{{ product.name }}</a></h5>
+                          <p class="fs--1 mb-2"><a class="text-500" href="{% url 'ecommerce:products_by_category' product.category.slug %}">{{ product.category }}</a></p>
                             {% if product.discount %}
                                  <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-2"> {{ product.discounted_price }} so'm
                             <!-- <del class="ms-2 fs--1 text-500">180 000 so'm </del> -->
