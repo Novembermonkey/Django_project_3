@@ -6,6 +6,7 @@ from .managers import CustomUserManager
 # Create your models here.
 
 class CustomUser(AbstractUser, PermissionsMixin):
+    username = None
     email = models.EmailField(unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
