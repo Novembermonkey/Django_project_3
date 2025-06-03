@@ -72,13 +72,13 @@ class ProductImage(BaseModel):
 
 
 class AttributeKey(BaseModel):
-    key = models.CharField(max_length=50)
+    key = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.key
 
 class AttributeValue(BaseModel):
-    value = models.CharField(max_length=50)
+    value = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.value
@@ -90,7 +90,6 @@ class ProductAttribute(BaseModel):
 
     def __str__(self):
         return f'{self.product.name} - {self.attribute_key.key} - {self.attribute_value.value}'
-
 
 class Comment(BaseModel):
     class RatingChoices(models.IntegerChoices):
