@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Category, Product, ProductImage, AttributeKey, AttributeValue, ProductAttribute
+from .models import Category, Product, ProductImage, AttributeKey, AttributeValue, ProductAttribute, Comment
 
 # Register your models here.
 
 admin.site.register(AttributeKey)
 admin.site.register(AttributeValue)
 admin.site.register(ProductAttribute)
+admin.site.register(Comment)
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
