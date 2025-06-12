@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import Category, Product, ProductImage, AttributeKey, AttributeValue, ProductAttribute, Comment
+from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 
@@ -21,7 +22,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProductImage)
-class ProductImageAdmin(admin.ModelAdmin):
+class ProductImageAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ['product_name', 'image_preview']
 
     def product_name(self, obj):
@@ -46,7 +47,7 @@ class ImageTabularInline(admin.TabularInline):
     image_preview.short_description = 'Image'
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     inlines = [ImageTabularInline]
     list_display = ['id', 'name', 'price', 'amount', 'category', 'image_preview']
     readonly_fields = ['image_preview']

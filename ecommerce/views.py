@@ -1,9 +1,11 @@
+from re import search
+
 from django.shortcuts import render
 from .models import Product, Category, Comment
 from django.views import View
 from django.views.generic import DetailView, CreateView
 from django.urls import reverse_lazy
-from django.core.paginator import Paginator
+from .utils import pagination, search
 
 
 # Create your views here.
@@ -14,9 +16,9 @@ class Index(View):
         products = Product.objects.all()
         categories = Category.objects.all()
 
-        paginator = Paginator(products, 1)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+        products = search(request, products)
+
+        page_obj = pagination(request, products, 1)
 
         context = {
             'categories': categories,
@@ -25,12 +27,17 @@ class Index(View):
 
         if category_slug:
             products = products.filter(category__slug=category_slug)
-            return render(request, 'ecommerce/product-list.html', {'products': products})
+            products = search(request, products)
+            page_obj = pagination(request, products, 1)
+            return render(request, 'ecommerce/product-list.html', {'page_obj': page_obj, })
         return render(request, 'ecommerce/index.html', context=context)
 
 
 def product_list(request):
-    return render(request, 'ecommerce/product-list.html', {'products': Product.objects.all()})
+    products = Product.objects.all()
+    page_obj = pagination(request, products, 1)
+    return render(request, 'ecommerce/product-list.html', {'page_obj': page_obj})
+
 
 class ProductDetail(DetailView):
     model = Product
