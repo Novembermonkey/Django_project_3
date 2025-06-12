@@ -3,6 +3,7 @@ from .models import Product, Category, Comment
 from django.views import View
 from django.views.generic import DetailView, CreateView
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -13,9 +14,13 @@ class Index(View):
         products = Product.objects.all()
         categories = Category.objects.all()
 
+        paginator = Paginator(products, 1)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
         context = {
             'categories': categories,
-            'products': products,
+            'page_obj': page_obj,
         }
 
         if category_slug:
@@ -49,3 +54,5 @@ class CommentCreate(CreateView):
     def get_success_url(self):
         pk = self.kwargs.get('pk')
         return reverse_lazy('ecommerce:product_detail', kwargs={'pk': pk})
+
+
