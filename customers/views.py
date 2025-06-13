@@ -1,17 +1,25 @@
 from django.shortcuts import render
 from .models import Customer
-from ecommerce.utils import pagination
 from .admin import CustomerResource
 from django.http import HttpResponse
+from django.views.generic import ListView
 from import_export.formats.base_formats import XLSX
 
 # Create your views here.
 
-def customers_list(request):
-    customers = Customer.objects.all()
-    page_obj = pagination(request, customers, 1)
+# def customers_list(request):
+#     customers = Customer.objects.all()
+#     page_obj = pagination(request, customers, 1)
+#
+#     return render(request, 'customers/customers-list.html', {'page_obj': page_obj})
 
-    return render(request, 'customers/customers-list.html', {'page_obj': page_obj})
+class CustomersList(ListView):
+    model = Customer
+    template_name = 'customers/customers-list.html'
+    context_object_name = 'customers'
+    paginate_by = 1
+
+
 
 def customers_export(request):
     customers = Customer.objects.all()

@@ -1,42 +1,49 @@
-from re import search
+from lib2to3.fixes.fix_input import context
 
 from django.shortcuts import render
 from .models import Product, Category, Comment
 from django.views import View
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, ListView
 from django.urls import reverse_lazy
-from .utils import pagination, search
+from .utils import search
 
 
-# Create your views here.
+# Create your views here
 
+class Index(ListView):
+    model = Product
+    template_name = 'ecommerce/index.html'
+    context_object_name = 'products'
+    paginate_by = 1
 
-class Index(View):
-    def get(self, request, category_slug=None):
+    def get_queryset(self):
         products = Product.objects.all()
-        categories = Category.objects.all()
 
-        products = search(request, products)
-
-        page_obj = pagination(request, products, 1)
-
-        context = {
-            'categories': categories,
-            'page_obj': page_obj,
-        }
-
+        category_slug = self.kwargs.get('category_slug')
         if category_slug:
             products = products.filter(category__slug=category_slug)
-            products = search(request, products)
-            page_obj = pagination(request, products, 1)
-            return render(request, 'ecommerce/product-list.html', {'page_obj': page_obj, })
-        return render(request, 'ecommerce/index.html', context=context)
+
+        products = search(self.request, products)
+        return products
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = self.get_queryset()
+
+        context['products'] = products
+        context['categories'] = Category.objects.all()
+
+        if self.kwargs.get('category_slug'):
+            self.template_name = 'ecommerce/product-list.html'
+
+        return context
 
 
-def product_list(request):
-    products = Product.objects.all()
-    page_obj = pagination(request, products, 1)
-    return render(request, 'ecommerce/product-list.html', {'page_obj': page_obj})
+class ProductList(ListView):
+    model = Product
+    template_name = 'ecommerce/product-list.html'
+    context_object_name = 'products'
+    paginate_by = 1
 
 
 class ProductDetail(DetailView):
