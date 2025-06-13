@@ -3,7 +3,6 @@ from .models import Customer
 from .resources import CustomerResource
 from django.http import HttpResponse
 from django.views.generic import ListView
-from import_export.formats.base_formats import XLSX
 
 # Create your views here.
 
@@ -17,7 +16,7 @@ class CustomersList(ListView):
     model = Customer
     template_name = 'customers/customers-list.html'
     context_object_name = 'customers'
-    paginate_by = 1
+    paginate_by = 2
 
 
 
@@ -36,8 +35,7 @@ def customers_export(request):
         content_type = 'application/json'
         file_ext = 'json'
     else:
-        file_format = XLSX()
-        file = file_format.export_data(dataset)
+        file = dataset.xlsx
         content_type = 'application/vnd.ms-excel'
         file_ext = 'xlsx'
 
