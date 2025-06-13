@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Customer
-from .admin import CustomerResource
+from .resources import CustomerResource
 from django.http import HttpResponse
 from django.views.generic import ListView
 from import_export.formats.base_formats import XLSX
@@ -29,14 +29,18 @@ def customers_export(request):
 
     if format == 'csv':
         file =  dataset.csv
+        content_type = 'text/csv'
         file_ext = 'csv'
     elif format == 'json':
         file = dataset.json
+        content_type = 'application/json'
         file_ext = 'json'
     else:
         file_format = XLSX()
-        file_ext = 'xlsx'
         file = file_format.export_data(dataset)
+        content_type = 'application/vnd.ms-excel'
+        file_ext = 'xlsx'
+
     response = HttpResponse(file)
     response['Content-Disposition'] = f'attachment; filename="customers.{file_ext}"'
     return response
