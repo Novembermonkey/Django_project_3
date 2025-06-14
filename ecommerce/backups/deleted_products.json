@@ -1,0 +1,50 @@
+[
+    {
+        "name": "email_test",
+        "description": "",
+        "price": "1234.00",
+        "discount": "0",
+        "amount": "1",
+        "category": 1
+    },
+    {
+        "name": "email_test",
+        "description": "",
+        "price": "1234.00",
+        "discount": "0",
+        "amount": "1",
+        "category": 1
+    },
+    {
+        "name": "test_email_2",
+        "description": "",
+        "price": "1234.00",
+        "discount": "0",
+        "amount": "1",
+        "category": 1
+    },
+    {
+        "name": "test_email_2",
+        "description": "",
+        "price": "1234.00",
+        "discount": "0",
+        "amount": "1",
+        "category": 1
+    },
+    {
+        "name": "test_email_2",
+        "description": "",
+        "price": "1234.00",
+        "discount": "0",
+        "amount": "1",
+        "category": 1
+    },
+    {
+        "name": "test_email_2",
+        "description": "",
+        "price": "1234.00",
+        "discount": "0",
+        "amount": "1",
+        "category": 1
+    }
+]

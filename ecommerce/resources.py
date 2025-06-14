@@ -1,13 +1,13 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
-from ecommerce.models import Product
+from ecommerce.models import Product, Category
 
 
 class ProductResource(resources.ModelResource):
     category = fields.Field(
         column_name='category',
         attribute='category',
-        widget=ForeignKeyWidget(Product, 'title'),
+        widget=ForeignKeyWidget(Category, 'id'),
     )
 
     class Meta:

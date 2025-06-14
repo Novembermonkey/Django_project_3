@@ -11,7 +11,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    profile_pic = models.ImageField(upload_to='users/', blank=True, null=True)
 
 
     USERNAME_FIELD = 'email'
