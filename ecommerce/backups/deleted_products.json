@@ -46,5 +46,13 @@
         "discount": "0",
         "amount": "1",
         "category": 1
+    },
+    {
+        "name": "йцукп",
+        "description": "",
+        "price": "1234.00",
+        "discount": "0",
+        "amount": "1",
+        "category": 1
     }
 ]
