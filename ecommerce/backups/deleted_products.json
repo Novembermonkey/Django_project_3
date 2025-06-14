@@ -54,5 +54,13 @@
         "discount": "0",
         "amount": "1",
         "category": 1
+    },
+    {
+        "name": "цуке",
+        "description": "",
+        "price": "12345.00",
+        "discount": "0",
+        "amount": "1",
+        "category": 2
     }
 ]

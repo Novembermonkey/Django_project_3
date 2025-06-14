@@ -40,7 +40,10 @@ class LoginForm(forms.Form):
 
 
 class RegisterForm(forms.ModelForm):
-    pass
+    model = CustomUser
+    fields = ('email', 'password', 'confirmed_password')
+
+
 
 
 # admin forms
