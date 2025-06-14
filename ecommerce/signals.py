@@ -1,7 +1,6 @@
-import os
-
-from django.db.models.signals import pre_delete, post_delete
+from django.db.models.signals import pre_delete, post_delete, post_save
 from django.dispatch import receiver
+from users.models import CustomUser
 from .models import Product
 from .resources import ProductResource
 import json
@@ -31,9 +30,19 @@ def product_post_delete(sender, instance, **kwargs):
     send_mail(
         "Deleted product",
         "Backup made successfully",
-        f"{os.getenv("sender")}",
+        'heyj0435@gmail.com',
         receivers,
         fail_silently=False,
     )
 
+
+@receiver(post_save, sender=Product)
+def product_post_save(sender, instance, created, **kwargs):
+    if created:
+        send_mail(
+            "Product added",
+            f"{instance.name.title()} was added to the stock",
+            'heyj0435@gmail.com',
+            [user for user in CustomUser.objects.all()],
+        )
 

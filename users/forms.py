@@ -40,8 +40,27 @@ class LoginForm(forms.Form):
 
 
 class RegisterForm(forms.ModelForm):
-    model = CustomUser
-    fields = ('email', 'password', 'confirmed_password')
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = CustomUser
+        fields = ('email', 'password', 'confirm_password')
+
+    def clean_email(self):
+        email = self.data.get('email')
+        if CustomUser.objects.filter(email=email).exists():
+            raise forms.ValidationError(f'{email.title()} already exist ')
+        return email
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('confirm_password')
+
+        if password != confirm_password:
+            raise forms.ValidationError('Passwords must match')
+        return cleaned_data
+
 
 
 

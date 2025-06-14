@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import CreateView
-from .models import CustomUser
 from django.contrib.auth.views import LoginView
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -24,13 +23,17 @@ def register_page(request):
     return render(request, 'users/register.html')
 
 class RegisterUser(CreateView):
-    model = CustomUser
+    form_class = RegisterForm
     template_name = 'users/register.html'
-    fields = ('email', 'password', 'confirmed_password')
 
     def form_valid(self, form):
-        if form.cd['password'] == form.cd['confirmed_password']:
-            form.save()
+        user = form.save(commit=False)
+        user.set_password(form.cleaned_data['password'])
+        user.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('ecommerce:index')
 
 def mail_confirmation(request):
     return render(request, 'users/confirm-mail.html')
