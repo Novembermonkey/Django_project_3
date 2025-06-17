@@ -1,11 +1,12 @@
-from lib2to3.fixes.fix_input import context
-
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+from .forms import EmailForm
 from .models import Product, Category, Comment
 from django.views import View
 from django.views.generic import DetailView, CreateView, ListView
 from django.urls import reverse_lazy
 from .utils import search
+from config.settings import DEFAULT_FROM_EMAIL
 
 
 # Create your views here
@@ -68,5 +69,24 @@ class CommentCreate(CreateView):
     def get_success_url(self):
         pk = self.kwargs.get('pk')
         return reverse_lazy('ecommerce:product_detail', kwargs={'pk': pk})
+
+
+
+def send_email(request):
+    form = EmailForm()
+    if request.method == 'POST':
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            receivers = form.cleaned_data['receivers'].split(",")
+            print(receivers)
+
+            send_mail(subject=subject, message=message, from_email=DEFAULT_FROM_EMAIL, recipient_list=receivers)
+
+            return redirect('ecommerce:index')
+
+    return render(request, 'ecommerce/email.html', {'form': form})
+
 
 

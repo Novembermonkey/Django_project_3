@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'import_export',
     'customers',
     'phonenumber_field',
+    'widget_tweaks',
     'baton.autodiscover',
 ]
 
@@ -151,5 +152,6 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 PASSWORD_RESET_TIMEOUT = 14400
