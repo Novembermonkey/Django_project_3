@@ -352,7 +352,7 @@
                       </a>
                       <!-- more inner pages-->
                       <ul class="nav collapse false" id="simple">
-                        <li class="nav-item"><a class="nav-link" href="../../../pages/authentication/simple/login.html" aria-expanded="false">
+                        <li class="nav-item"><a class="nav-link" href="" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Login</span>
                             </div>
                           </a>
@@ -1723,7 +1723,18 @@
 
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="../../../pages/user/settings.html">Settings</a>
-                    <a class="dropdown-item" href="../../../pages/authentication/card/logout.html">Logout</a>
+
+                      {% if user.is_authenticated %}
+                          <form method="post" action="{% url 'users:logout_page' %}">
+                          {% csrf_token %}
+                          <button type="submit" class=" dropdown-item">Logout</button>
+                          </form>
+
+                      {% else %}
+                          <a class="dropdown-item" href="{% url 'users:login_page' %}">Login</a>
+                      {% endif %}
+
+
                   </div>
                 </div>
               </li>
