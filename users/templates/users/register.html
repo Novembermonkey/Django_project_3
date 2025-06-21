@@ -1,4 +1,5 @@
 {% load static %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
 
@@ -85,30 +86,40 @@
                   <div class="col-md-7 d-flex flex-center">
                     <div class="p-4 p-md-5 flex-grow-1">
                       <h3>Register</h3>
+
                       <form method="post" action="{% url 'users:register_page' %}">
-                          {% csrf_token %}
+                        {% csrf_token %}
+
                         <div class="mb-3">
-                          <label class="form-label" for="card-email">Email address</label>
-                          <input class="form-control" name="email" type="email" autocomplete="on" id="card-email" />
+                            <label class="form-label" for="card-email">Email address</label>
+                            {{ form.email|add_class:"form-control" }}
+                            {{ form.email.errors }}
                         </div>
+
                         <div class="row gx-2">
-                          <div class="mb-3 col-sm-6">
-                            <label class="form-label" for="card-password">Password</label>
-                            <input class="form-control" name="password" type="password" autocomplete="on" id="card-password" />
-                          </div>
-                          <div class="mb-3 col-sm-6">
-                            <label class="form-label" for="card-confirm-password">Confirm Password</label>
-                            <input class="form-control" name="confirm_password" type="password" autocomplete="on" id="card-confirm-password" />
-                          </div>
+                            <div class="mb-3 col-sm-6">
+                                <label class="form-label" for="card-password">Password</label>
+                                {{ form.password1|add_class:"form-control" }}
+                                {{ form.password1.errors }}
+                            </div>
+                            <div class="mb-3 col-sm-6">
+                                <label class="form-label" for="card-confirm-password">Confirm Password</label>
+                                {{ form.password2|add_class:"form-control" }}
+                                {{ form.password2.errors }}
+                            </div>
                         </div>
+
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="card-register-checkbox" />
-                          <label class="form-label" for="card-register-checkbox">I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a></label>
+                            <input class="form-check-input" type="checkbox" id="card-register-checkbox" />
+                            <label class="form-label" for="card-register-checkbox">
+                                I accept the <a href="#">terms</a> and <a href="#">privacy policy</a>
+                            </label>
                         </div>
+
                         <div class="mb-3">
-                          <button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">Register</button>
+                            <button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">Register</button>
                         </div>
-                      </form>
+                </form>
                       <div class="position-relative mt-4">
                         <hr class="bg-300" />
                         <div class="divider-content-center">or register with</div>

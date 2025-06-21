@@ -2,7 +2,11 @@ from django.shortcuts import render
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import LoginForm, RegisterForm
+from django import forms
 from django.urls import reverse_lazy
+
+from .models import CustomUser
+
 
 # Create your views here.
 
@@ -18,14 +22,10 @@ class RegisterUser(CreateView):
     form_class = RegisterForm
     template_name = 'users/register.html'
 
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user.set_password(form.cleaned_data['password'])
-        user.save()
-        return super().form_valid(form)
-
     def get_success_url(self):
         return reverse_lazy('ecommerce:index')
+
+
 
 class LogoutUser(LogoutView):
     template_name = 'ecommerce/index.html'

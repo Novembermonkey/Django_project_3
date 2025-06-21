@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.forms import ReadOnlyPasswordHashField, UserCreationForm
 from django.contrib.auth import get_user_model
 
 from .models import CustomUser
@@ -39,33 +39,16 @@ class LoginForm(forms.Form):
         return self.user
 
 
-class RegisterForm(forms.ModelForm):
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
-
+class RegisterForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ('email', 'password', 'confirm_password')
-
-    def clean_email(self):
-        email = self.data.get('email')
-        if CustomUser.objects.filter(email=email).exists():
-            raise forms.ValidationError(f'{email.title()} already exist ')
-        return email
-
-    def clean(self):
-        cleaned_data = super().clean()
-        password = self.cleaned_data.get('password')
-        confirm_password = self.cleaned_data.get('confirm_password')
-
-        if password != confirm_password:
-            raise forms.ValidationError('Passwords must match')
-        return cleaned_data
+        fields = ('email', 'password1', 'password2')
 
 
 
 
 
-# admin forms
+#admin forms
 class CustomUserCreationForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
