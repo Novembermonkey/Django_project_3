@@ -62,6 +62,10 @@ class Product(BaseModel):
         avg = self.comments.aggregate(avg=Round(Avg('rating'), precision=2))['avg']
         return avg
 
+    @avg_rating.setter
+    def avg_rating(self, value):
+        self.avg = value
+
 class ProductImage(BaseModel):
     image = models.ImageField(upload_to='products/')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')

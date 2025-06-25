@@ -19,14 +19,14 @@ class Index(ListView):
     paginate_by = 1
 
     def get_queryset(self):
-        products = Product.objects.all()
+        products = Product.objects.annotate(avg_rating=Round(Avg('comments__rating'), precision=2))
 
         category_slug = self.kwargs.get('category_slug')
         if category_slug:
             products = products.filter(category__slug=category_slug)
 
         products = search(self.request, products)
-        return products
+        return products.order_by('-avg_rating')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -47,6 +47,9 @@ class ProductList(ListView):
     context_object_name = 'products'
     paginate_by = 3
 
+    def get_queryset(self):
+        products = Product.objects.annotate(avg_rating=Round(Avg('comments__rating'), precision=2))
+        return products.order_by('-avg_rating')
 
 
 class ProductDetail(DetailView):
