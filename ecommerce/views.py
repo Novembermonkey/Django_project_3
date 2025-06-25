@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from .forms import EmailForm
 from .models import Product, Category, Comment
-from django.views import View
 from django.views.generic import DetailView, CreateView, ListView
 from django.urls import reverse_lazy
 from .utils import search
 from config.settings import DEFAULT_FROM_EMAIL
+from django.db.models import Avg
+from django.db.models.functions import Round
 
 
 # Create your views here
@@ -44,7 +45,8 @@ class ProductList(ListView):
     model = Product
     template_name = 'ecommerce/product-list.html'
     context_object_name = 'products'
-    paginate_by = 1
+    paginate_by = 3
+
 
 
 class ProductDetail(DetailView):
@@ -90,3 +92,4 @@ def send_email(request):
 
 
 
+# Product.objects.all().annotate(avg_rating=Round(Avg('comments__rating'), precision=2))
