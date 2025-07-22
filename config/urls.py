@@ -22,7 +22,7 @@ from config import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('baton/', include('baton.urls')),
-    path('', include('ecommerce.urls', namespace='ecommerce')),
+    path('/', include('ecommerce.urls', namespace='ecommerce')),
     path('users/', include('users.urls', namespace='users')),
     path('customers/', include('customers.urls', namespace='customers')),
 
