@@ -18,11 +18,13 @@ from baton.autodiscover import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from config import settings
+from django.shortcuts import redirect
 
 urlpatterns = [
+    path('', lambda request: redirect('ecommerce:index')),
     path('admin/', admin.site.urls),
     path('baton/', include('baton.urls')),
-    path('/', include('ecommerce.urls', namespace='ecommerce')),
+    path('ecommerce/', include('ecommerce.urls', namespace='ecommerce')),
     path('users/', include('users.urls', namespace='users')),
     path('customers/', include('customers.urls', namespace='customers')),
 
